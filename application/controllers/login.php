@@ -10,32 +10,51 @@
  *
  * @author steven
  */
-class login extends CI_Controller {
+class login extends CI_Controller 
+{
 
     public $data = array();
 
-    public function index() {
+    public function index() 
+	{
         $this->load->view('login');
     }
 
-    public function validate() {
+    public function validate() 
+	{
         $this->load->database();
+//<<<<<<< HEAD
         $query = $this->db->query('SELECT * FROM usuarios WHERE usuario="' . $_POST['usuario'] . '" AND contrasena="' . $_POST['password'] . '"');
-        if ($query->num_rows() == 1) {
+        if ($query->num_rows() == 1) 
+		{
             $row = $query->row();
             $datos = array(
                 'username' => $_POST['usuario'],
                 'logged_in' => TRUE,
                 'permiso' => $row->Permiso,
+				'id' => $row->ID
             );
             $this->session->set_userdata( $datos );
             redirect('principal');
-        } else {
+        } 
+		else 
+		{
             $this->data['error'] = "Usuario y/o password no son validos";
             $this->load->view('login', $this->data);
-        }
-    }
-
+//=======
+       	 	$query = $this->db->query('SELECT * FROM usuarios WHERE usuario="'.$_POST['usuario'].'" AND contrasena="'.$_POST['password'].'"' );
+        	if( $query->num_rows()== 1 )
+			{
+            	redirect( 'principal');
+        	}
+			else
+			{
+            	$this->data['error']="Usuario y/o password no son validos";
+           		$this->load->view( 'login' , $this->data );
+//>>>>>>> 0ac5d2833ba044833ca2c56c386efd0d1d77585b
+        	}
+    	}
+	}
 }
 
 ?>
